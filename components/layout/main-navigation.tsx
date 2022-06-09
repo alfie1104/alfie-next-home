@@ -6,6 +6,7 @@ import tw from "twin.macro";
 import logo from "../images/alfie_logo.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
+import Image from "next/image";
 
 const linkList = [
   { title: "Home", path: "/" },
@@ -61,7 +62,7 @@ const NavItem = ({
   );
 };
 
-const Navbar = () => {
+const MainNavigation = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
   const { pathname } = useRouter();
 
@@ -69,9 +70,11 @@ const Navbar = () => {
     <nav className="w-full flex flex-row md:justify-center justify-between items-center p-4 mb-5">
       <div className="md:ml-14 ml-8 mr-auto justify-center items-center">
         <Link href="/">
-          <img
+          <Image
             src={logo}
             alt="logo"
+            width={"80"}
+            height="80"
             className="w-20 md:w-32 rounded-2xl -rotate-6 hover:rotate-0 transition-transform"
           />
         </Link>
@@ -123,4 +126,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default MainNavigation;

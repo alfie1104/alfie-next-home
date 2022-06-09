@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import Navbar from "../navbar";
+import Navbar from "./main-navigation";
 
 interface IProps {
   children: any;
