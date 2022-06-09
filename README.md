@@ -1,4 +1,6 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Alfie's Next Home
+
+Portfolio page built with Next.js, Typescript, Tailwind CSS and Framer Motion
 
 ## Getting Started
 
