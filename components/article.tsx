@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { Helmet } from "react-helmet-async";
 
 const variants = {
   hidden: { opacity: 0, x: 0, y: 20 },
@@ -7,7 +6,10 @@ const variants = {
   exit: { opacity: 0, x: 0, y: 20 },
 };
 
-const Article: React.FC<{ title: string }> = ({ children, title }) => (
+const Article: React.FC<{ title: string; children: any }> = ({
+  children,
+  title,
+}) => (
   <motion.article
     initial="hidden"
     animate="enter"
@@ -17,11 +19,11 @@ const Article: React.FC<{ title: string }> = ({ children, title }) => (
     style={{ position: "relative" }}
   >
     <>
-      {title && (
+      {/* {title && (
         <Helmet>
           <title>{title} | Alfie</title>
         </Helmet>
-      )}
+      )} */}
       {children}
     </>
   </motion.article>

@@ -1,5 +1,6 @@
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Image from "next/image";
 import Link from "next/link";
 import styled from "styled-components";
 import tw from "twin.macro";
@@ -29,7 +30,14 @@ export const ItemContent: React.FC<{ children: any }> = ({ children }) => (
 );
 
 export const WorkImage = ({ src, alt }: { src: string; alt: string }) => (
-  <img src={src} alt={alt} className={"mb-4 rounded-lg"} />
+  <Image
+    src={src}
+    alt={alt}
+    className={"mb-4 rounded-lg"}
+    layout="responsive"
+    width={400}
+    height={400}
+  />
 );
 
 export const Paragraph = styled.p`

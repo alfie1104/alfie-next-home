@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import styled from "styled-components";
 import tw from "twin.macro";
-import logo from "../images/alfie_logo.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
@@ -13,6 +12,8 @@ const linkList = [
   { title: "Works", path: "/works" },
   { title: "Biography", path: "/bio" },
 ];
+
+const logoPath = "/images/alfie_logo.svg";
 
 const Item = styled.li<{ current?: boolean }>`
   ${tw`
@@ -71,10 +72,11 @@ const MainNavigation = () => {
       <div className="md:ml-14 ml-8 mr-auto justify-center items-center">
         <Link href="/">
           <Image
-            src={logo}
+            src={logoPath}
             alt="logo"
-            width={"80"}
-            height="80"
+            width={80}
+            height={80}
+            layout="responsive"
             className="w-20 md:w-32 rounded-2xl -rotate-6 hover:rotate-0 transition-transform"
           />
         </Link>

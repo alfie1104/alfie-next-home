@@ -45,6 +45,7 @@ export const Experience: React.FC<IExperience> = ({ id, items, title }) => {
       <ExpList>
         {items.map((item) => (
           <ExpListItem
+            key={item.name}
             className={item.name === "설명" ? "flex items-center" : ""}
           >
             <ExpItemName>{item.name}</ExpItemName>
