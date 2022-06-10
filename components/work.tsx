@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
 import styled from "styled-components";
-import tw from "twin.macro";
 
 export const Title: React.FC<{ children: any }> = ({ children }) => (
   <div className="flex items-center gap-2 mb-2">
@@ -43,9 +42,7 @@ export const WorkImage = ({ src, alt }: { src: string; alt: string }) => (
 export const Paragraph = styled.p`
   text-align: justify;
   text-indent: 1em;
-  ${tw`
-    border-2
-    font-medium
-  `}
-  color : ${(props) => props.theme.green.light};
+  border-width: 2px;
+  font-weight: 500;
+  color: ${(props) => props.theme.green.light};
 `;

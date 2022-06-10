@@ -1,29 +1,24 @@
 import React from "react";
 import styled from "styled-components";
-import tw from "twin.macro";
-import { IExperience } from "../data.type";
+import { IExperience } from "../db/data.type";
 
 const ExpContainer = styled.div`
-  ${tw`
-    my-5
-  `}
+  margin-top: 1.25rem /* 20px */;
+  margin-bottom: 1.25rem /* 20px */;
 `;
 
 const ExpTitle = styled.h2`
-  ${tw`
-        mb-3 
-        font-medium 
-        text-base
-    `}
-  color:${(props) => props.theme.green.dark}
+  margin-bottom: 0.75rem /* 12px */;
+  font-weight: 500;
+  font-size: 1rem /* 16px */;
+  line-height: 1.5rem /* 24px */;
+  color: ${(props) => props.theme.green.dark};
 `;
 
 const ExpList = styled.ul`
-  ${tw`
-        flex
-        flex-col
-        gap-2
-    `}
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem /* 8px */;
 `;
 
 const ExpListItem = styled.li``;
@@ -33,9 +28,7 @@ const ExpItemName = styled.span`
 `;
 
 const ExpItemContent = styled.span`
-  ${tw`
-        max-w-[50vw]
-    `}
+  max-width: 50vw;
 `;
 
 export const Experience: React.FC<IExperience> = ({ id, items, title }) => {

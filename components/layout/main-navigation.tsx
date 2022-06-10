@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import styled from "styled-components";
-import tw from "twin.macro";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
@@ -16,9 +15,6 @@ const linkList = [
 const logoPath = "/images/alfie_logo.svg";
 
 const Item = styled.li<{ current?: boolean }>`
-  ${tw`
-    mx-4
-  `}
   color : ${(props) =>
     props.current ? props.theme.blue.dark : props.theme.white.light}
   transition : color 0.3s ease-in-out;
@@ -50,7 +46,10 @@ const NavItem = ({
   classProps?: string;
 }) => {
   return (
-    <Item current={current} className={classProps ? `${classProps}` : ""}>
+    <Item
+      current={current}
+      className={`mx-4 ${classProps ? `${classProps}` : ""}`}
+    >
       <Link
         href={path}
         className={`mx-2 text-base font-medium ${
