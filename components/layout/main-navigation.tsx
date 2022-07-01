@@ -8,7 +8,7 @@ import Image from "next/image";
 const linkList = [
   { title: "Home", path: "/" },
   { title: "Works", path: "/works" },
-  { title: "Biography", path: "/bio" },
+  { title: "Biography", path: "/biography" },
 ];
 
 const logoPath = "/images/alfie_logo.svg";
@@ -65,14 +65,16 @@ const MainNavigation = () => {
     <nav className="w-full flex flex-row md:justify-center justify-between items-center p-4 mb-5">
       <div className="md:ml-14 ml-8 mr-auto justify-center items-center">
         <Link href="/">
-          <Image
-            src={logoPath}
-            alt="logo"
-            width={80}
-            height={80}
-            layout="responsive"
-            className="w-20 md:w-32 rounded-2xl -rotate-6 hover:rotate-0 transition-transform"
-          />
+          <div className="w-20 md:w-32 -rotate-6 hover:rotate-0 transition-transform cursor-pointer">
+            <Image
+              src={logoPath}
+              alt="logo"
+              width={128}
+              height={80}
+              layout="responsive"
+              className="rounded-2xl"
+            />
+          </div>
         </Link>
       </div>
       <ul className="text-white md:flex hidden list-none flex-row justify-between items-center flex-initial">

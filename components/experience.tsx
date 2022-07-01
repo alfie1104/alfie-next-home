@@ -1,5 +1,5 @@
 import React from "react";
-import { IExperience } from "../db/data.type";
+import { IExperience } from "../util/data.type";
 
 const ExpContainer: React.FC<{ children: any }> = ({ children }) => (
   <div className="my-5">{children}</div>

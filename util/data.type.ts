@@ -1,10 +1,12 @@
+import { ObjectId } from "mongodb";
+
 export interface IExperienceItem {
   name: string;
   content: string;
 }
 
 export interface IExperience {
-  id: number;
+  id: string;
   title: string;
   items: IExperienceItem[];
 }
