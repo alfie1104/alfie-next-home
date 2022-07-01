@@ -5,7 +5,7 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head />
-        <body className="bg-gray-800">
+        <body className="bg-custom-black-dark text-custom-white-dark leading-5 font-light font-sans">
           <Main />
           <NextScript />
           <div id="notifications"></div>
