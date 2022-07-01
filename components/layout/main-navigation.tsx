@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
@@ -14,25 +13,21 @@ const linkList = [
 
 const logoPath = "/images/alfie_logo.svg";
 
-const Item = styled.li<{ current?: boolean }>`
-  color : ${(props) =>
-    props.current ? props.theme.blue.dark : props.theme.white.light}
-  transition : color 0.3s ease-in-out;
-  &:hover {
-    color: ${(props) => props.theme.blue.light};
-  }
-  &::after {
-    display: block;
-    border-bottom: solid 3px ${(props) => props.theme.blue.dark};
-    content: "";
-    transform: ${(props) => (props.current ? "scaleX(1)" : "scaleX(0)")};
-    transition: transform 0.3s ease-in-out;
-  }
-  &:hover:after {
-    border-bottom: solid 3px ${(props) => props.theme.blue.light};
-    transform: scaleX(1);
-  }
-`;
+const Item: React.FC<{
+  children: any;
+  current?: boolean;
+  classProps: string;
+}> = ({ children, current, classProps }) => (
+  <li
+    className={`${
+      current ? "text-custom-blue-light" : "text-custom-white-light"
+    } transition-colors hover:text-custom-blue-dark after:block after:border-b-[3px] after:border-custom-blue-light after:transition-transform ${
+      current ? "after:scale-x-100" : "after:scale-x-0"
+    } hover:after:border-b-[3px] hover:after:border-custom-blue-dark hover:after:scale-x-100 ${classProps}`}
+  >
+    {children}
+  </li>
+);
 
 const NavItem = ({
   title,
@@ -48,13 +43,13 @@ const NavItem = ({
   return (
     <Item
       current={current}
-      className={`mx-4 ${classProps ? `${classProps}` : ""}`}
+      classProps={`mx-4 ${classProps ? `${classProps}` : ""}`}
     >
       <Link
         href={path}
         className={`mx-2 text-base font-medium ${
           classProps ? `${classProps}` : ""
-        } ${current ? "text-[#1890ff]" : ""}`}
+        } ${current ? "text-custom-blue-light" : ""}`}
       >
         {title}
       </Link>

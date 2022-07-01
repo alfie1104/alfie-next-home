@@ -2,7 +2,6 @@ import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
-import styled from "styled-components";
 
 export const Title: React.FC<{ children: any }> = ({ children }) => (
   <div className="flex items-center gap-2 mb-2">
@@ -16,9 +15,13 @@ export const Title: React.FC<{ children: any }> = ({ children }) => (
   </div>
 );
 
-export const List = styled.ul``;
+export const List: React.FC<{ children: any }> = ({ children }) => (
+  <ul>{children}</ul>
+);
 
-export const ListItem = styled.li``;
+export const ListItem: React.FC<{ children: any }> = ({ children }) => (
+  <li>{children}</li>
+);
 
 export const ItemName: React.FC<{ children: any }> = ({ children }) => (
   <span className="mr-2">{children}</span>
@@ -39,10 +42,8 @@ export const WorkImage = ({ src, alt }: { src: string; alt: string }) => (
   />
 );
 
-export const Paragraph = styled.p`
-  text-align: justify;
-  text-indent: 1em;
-  border-width: 2px;
-  font-weight: 500;
-  color: ${(props) => props.theme.green.light};
-`;
+export const Paragraph: React.FC<{ children: any }> = ({ children }) => (
+  <p className="text-justify indent-4 border-2 font-medium text-custom-green-light">
+    {children}
+  </p>
+);
