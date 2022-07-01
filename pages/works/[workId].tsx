@@ -27,7 +27,7 @@ function WorkPage(props: InferGetStaticPropsType<typeof getStaticProps>) {
   const { title, description, items } = work;
 
   return (
-    <Article title="work">
+    <Article title={`Work-${title}`} description="Work">
       <Container>
         <Title>{title}</Title>
         <Paragraph>{description}</Paragraph>
