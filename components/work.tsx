@@ -6,7 +6,7 @@ import Link from "next/link";
 export const Title: React.FC<{ children: any }> = ({ children }) => (
   <div className="flex items-center gap-2 mb-2">
     <Link href="/works">
-      <span className="text-lg font-medium">Works</span>
+      <span className="text-lg font-medium cursor-pointer">Works</span>
     </Link>
     <FontAwesomeIcon icon={faChevronRight} size="2x" />
     <span className="text-lg text-black font-medium bg-blue-400 py-2 px-1 rounded-md">

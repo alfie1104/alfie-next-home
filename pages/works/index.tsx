@@ -13,8 +13,11 @@ function WorksPage(props: InferGetStaticPropsType<typeof getStaticProps>) {
           <h1>My Works</h1>
           {props.workList.map((work) => (
             <div key={work.id}>
-              {work.workImage && (
-                <WorkImage src={work.workImage} alt={work.alt ?? work.title} />
+              {work.workImage && work.workImage.length > 0 && (
+                <WorkImage
+                  src={work.workImage[0].uri}
+                  alt={work.workImage[0].alt ?? work.title}
+                />
               )}
               <Link href={`/works/${work.id}`}>{work.title}</Link>
             </div>

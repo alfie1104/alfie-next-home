@@ -15,7 +15,11 @@ export interface IWorkItem extends IExperienceItem {}
 
 export interface IWork extends IExperience {
   description: string;
-  workImage?: string;
-  alt?: string;
+  workImage?: [WorkImage];
   items: IWorkItem[];
+}
+
+export interface WorkImage {
+  alt: string;
+  uri: string;
 }

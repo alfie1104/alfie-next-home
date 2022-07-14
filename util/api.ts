@@ -53,9 +53,8 @@ export async function getWorks(filter = {}, sort = {}) {
     id: work._id.toString(),
     title: work.title,
     description: work.description,
-    ...(work.workImage && { workImage: work.workImage }),
-    ...(work.alt && { alt: work.alt }),
     items: work.items,
+    ...(work.workImage && { workImage: work.workImage }),
   }));
 
   return result;
@@ -94,9 +93,8 @@ export async function getWorkById(id: string) {
       id: temp._id.toString(),
       title: temp.title,
       description: temp.description,
-      ...(temp.workImage && { workImage: temp.workImage }),
-      ...(temp.alt && { alt: temp.alt }),
       items: temp.items,
+      ...(temp.workImage && { workImage: temp.workImage }),
     };
   }
 
