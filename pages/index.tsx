@@ -39,10 +39,11 @@ const Home = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 export default Home;
 
 export async function getStaticProps(context: GetStaticPropsContext) {
-  const expList = await getExperiences();
+  const { ok, error, result } = await getExperiences();
+
   return {
     props: {
-      expList,
+      expList: result ?? [],
     },
   };
 }

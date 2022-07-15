@@ -1,122 +1,194 @@
-import { ObjectId } from "mongodb";
-import { IExperience, IWork } from "./data.type";
-import { MongoClient } from "mongodb";
-import { Experience } from "../components/experience";
+import {
+  IExperience,
+  IExperienceItem,
+  IResult,
+  IWork,
+  IWorkImage,
+  IWorkItem,
+} from "./data.type";
+import { supabase } from "./superbaseClient";
 
-export async function connectToDatabase() {
-  const client = await MongoClient.connect(
-    `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_CLUSTER}.xp3cg.mongodb.net/${process.env.MONGO_DATABASE}?retryWrites=true&w=majority`
-  );
+export async function getWorks(): Promise<IResult<IWork[]>> {
+  let { data, error, status } = await supabase
+    .from("work")
+    .select(
+      `id, title, description, 
+      work_image (id, image_uri, description),
+      work_item (id, name, content)
+    `
+    )
+    .is("expired_at", null)
+    .order("id", { ascending: false });
 
-  return client;
-}
-
-export async function insertDocument(
-  client: MongoClient,
-  collection: string,
-  document: any
-) {
-  const db = client.db();
-
-  const result = await db.collection(collection).insertOne(document);
-  return result;
-}
-
-export async function getAllDocuments(
-  client: MongoClient,
-  collection: string,
-  sort = {},
-  filter = {}
-) {
-  const db = client.db();
-  const documents = await db
-    .collection(collection)
-    .find(filter)
-    .sort(sort)
-    .toArray();
-
-  return documents;
-}
-
-export async function getWorks(filter = {}, sort = {}) {
-  const client = await connectToDatabase();
-  const db = client.db();
-  const temp = await db
-    .collection<IWork>("works")
-    .find(filter)
-    .sort(sort)
-    .toArray();
-
-  client.close();
-
-  const result: IWork[] = temp.map((work) => ({
-    id: work._id.toString(),
-    title: work.title,
-    description: work.description,
-    items: work.items,
-    ...(work.workImage && { workImage: work.workImage }),
-  }));
-
-  return result;
-}
-
-export async function getExperiences(filter = {}, sort = {}) {
-  const client = await connectToDatabase();
-  const db = client.db();
-  const temp = await db
-    .collection<IExperience>("experiences")
-    .find(filter)
-    .sort(sort)
-    .toArray();
-
-  client.close();
-
-  const result: IExperience[] = temp.map((experience) => ({
-    id: experience._id.toString(),
-    title: experience.title,
-    items: experience.items,
-  }));
-
-  return result;
-}
-
-export async function getWorkById(id: string) {
-  const client = await connectToDatabase();
-  const db = client.db();
-  const temp = await db.collection<IWork>("works").findOne({
-    _id: ObjectId.createFromHexString(id),
-  });
-  client.close();
-
-  if (temp) {
+  if (error && status !== 406) {
     return {
-      id: temp._id.toString(),
-      title: temp.title,
-      description: temp.description,
-      items: temp.items,
-      ...(temp.workImage && { workImage: temp.workImage }),
+      ok: false,
+      error,
     };
   }
 
-  return undefined;
+  if (data) {
+    const result: IWork[] = data.map((work) => {
+      const items: IWorkItem[] = work.work_item.map((item: any) => ({
+        id: item.id + "",
+        name: item.name,
+        content: item.content,
+      }));
+      const workImages: IWorkImage[] = work.work_image.map(
+        (workImage: any) => ({
+          id: workImage.id + "",
+          uri: workImage.uri,
+          description: workImage.description,
+        })
+      );
+
+      return {
+        id: work.id + "",
+        title: work.title,
+        description: work.description,
+        items,
+        workImages,
+      };
+    });
+
+    return {
+      ok: true,
+      result,
+    };
+  } else {
+    return {
+      ok: true,
+      result: [],
+    };
+  }
 }
 
-export async function getExperienceById(id: string) {
-  const client = await connectToDatabase();
-  const db = client.db();
-  const temp = await db.collection<IExperience>("experiences").findOne({
-    _id: ObjectId.createFromHexString(id),
-  });
+export async function getExperiences(): Promise<IResult<IExperience[]>> {
+  let { data, error, status } = await supabase
+    .from("experience")
+    .select("id, title, experience_item (id, name, content)")
+    .is("expired_at", null)
+    .order("id", { ascending: false });
 
-  client.close();
-
-  if (temp) {
+  if (error && status !== 406) {
     return {
-      id: temp._id.toString(),
-      title: temp.title,
-      items: temp.items,
+      ok: false,
+      error,
     };
   }
 
-  return undefined;
+  if (data) {
+    const result: IExperience[] = data.map((exp) => {
+      const items: IExperienceItem[] = exp.experience_item.map((item: any) => ({
+        id: item.id + "",
+        name: item.name,
+        content: item.content,
+      }));
+      return {
+        id: exp.id + "",
+        title: exp.title,
+        items,
+      };
+    });
+
+    return {
+      ok: true,
+      result,
+    };
+  } else {
+    return {
+      ok: true,
+      result: [],
+    };
+  }
+}
+
+export async function getWorkById(id: string): Promise<IResult<IWork>> {
+  let { data, error, status } = await supabase
+    .from("work")
+    .select(
+      `id, title, description, 
+      work_image (id, image_uri, description),
+      work_item (id, name, content)
+    `
+    )
+    .eq("id", id)
+    .single();
+
+  if (error && status !== 406) {
+    return {
+      ok: false,
+      error,
+    };
+  }
+
+  if (data) {
+    const items: IWorkItem[] = data.work_item.map((item: any) => ({
+      id: item.id + "",
+      name: item.name,
+      content: item.content,
+    }));
+    const workImages: IWorkImage[] = data.work_image.map((workImage: any) => ({
+      id: workImage.id + "",
+      uri: workImage.uri,
+      description: workImage.description,
+    }));
+
+    const result = {
+      id: data.id + "",
+      title: data.title,
+      description: data.description,
+      items,
+      workImages,
+    };
+
+    return {
+      ok: true,
+      result,
+    };
+  } else {
+    return {
+      ok: true,
+    };
+  }
+}
+
+export async function getExperienceById(
+  id: string
+): Promise<IResult<IExperience>> {
+  let { data, error, status } = await supabase
+    .from("experience")
+    .select(`id, title, experience_item (id, name, content)`)
+    .eq("id", id)
+    .single();
+
+  if (error && status !== 406) {
+    return {
+      ok: false,
+      error,
+    };
+  }
+
+  if (data) {
+    const items: IExperienceItem[] = data.experience_item.map((item: any) => ({
+      id: item.id + "",
+      name: item.name,
+      content: item.content,
+    }));
+
+    const result = {
+      id: data.id + "",
+      title: data.title,
+      items,
+    };
+
+    return {
+      ok: true,
+      result,
+    };
+  } else {
+    return {
+      ok: true,
+    };
+  }
 }

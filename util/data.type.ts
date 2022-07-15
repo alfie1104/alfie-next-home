@@ -1,6 +1,7 @@
-import { ObjectId } from "mongodb";
+import { PostgrestError } from "@supabase/supabase-js";
 
 export interface IExperienceItem {
+  id: string;
   name: string;
   content: string;
 }
@@ -8,18 +9,25 @@ export interface IExperienceItem {
 export interface IExperience {
   id: string;
   title: string;
-  items: IExperienceItem[];
+  items?: IExperienceItem[];
 }
 
 export interface IWorkItem extends IExperienceItem {}
 
 export interface IWork extends IExperience {
   description: string;
-  workImage?: [WorkImage];
-  items: IWorkItem[];
+  items?: IWorkItem[];
+  workImages?: IWorkImage[];
 }
 
-export interface WorkImage {
-  alt: string;
+export interface IWorkImage {
+  id: string;
   uri: string;
+  description: string;
+}
+
+export interface IResult<T> {
+  ok: boolean;
+  error?: PostgrestError | string | null;
+  result?: T;
 }

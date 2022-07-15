@@ -3,7 +3,6 @@ import Link from "next/link";
 import Article from "../../components/article";
 import { WorkImage } from "../../components/work";
 import { getWorks } from "../../util/api";
-import { IWork } from "../../util/data.type";
 
 function WorksPage(props: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
@@ -13,10 +12,10 @@ function WorksPage(props: InferGetStaticPropsType<typeof getStaticProps>) {
           <h1>My Works</h1>
           {props.workList.map((work) => (
             <div key={work.id}>
-              {work.workImage && work.workImage.length > 0 && (
+              {work.workImages && work.workImages.length > 0 && (
                 <WorkImage
-                  src={work.workImage[0].uri}
-                  alt={work.workImage[0].alt ?? work.title}
+                  src={work.workImages[0].uri}
+                  alt={work.workImages[0].description ?? work.title}
                 />
               )}
               <Link href={`/works/${work.id}`}>{work.title}</Link>
@@ -31,11 +30,19 @@ function WorksPage(props: InferGetStaticPropsType<typeof getStaticProps>) {
 export default WorksPage;
 
 export async function getStaticProps(context: GetStaticPropsContext) {
-  const workList: IWork[] = await getWorks();
+  const { ok, error, result } = await getWorks();
 
-  return {
-    props: {
-      workList,
-    },
-  };
+  if (ok && result) {
+    return {
+      props: {
+        workList: result,
+      },
+    };
+  } else {
+    return {
+      props: {
+        workList: [],
+      },
+    };
+  }
 }

@@ -37,7 +37,7 @@ export const Experience: React.FC<IExperience> = ({ id, items, title }) => {
     <ExpContainer>
       <ExpTitle>{title}</ExpTitle>
       <ExpList>
-        {items.map((item) => (
+        {items?.map((item) => (
           <ExpListItem key={item.name} name={item.name}>
             <ExpItemName>{item.name}</ExpItemName>
             <ExpItemContent>{item.content}</ExpItemContent>

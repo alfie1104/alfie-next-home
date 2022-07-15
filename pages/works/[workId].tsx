@@ -32,7 +32,7 @@ function WorkPage(props: InferGetStaticPropsType<typeof getStaticProps>) {
         <Title>{title}</Title>
         <Paragraph>{description}</Paragraph>
         <List>
-          {items.map((item, index) => (
+          {items?.map((item, index) => (
             <ListItem key={index}>
               <ItemName>{item.name}</ItemName>
               <ItemContent>{item.content}</ItemContent>
@@ -51,7 +51,11 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 
   let work;
   if (typeof workId === "string") {
-    work = await getWorkById(workId);
+    const { ok, error, result } = await getWorkById(workId);
+
+    if (ok && result) {
+      work = result;
+    }
   }
 
   return {
@@ -62,16 +66,11 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 }
 
 export async function getStaticPaths() {
-  const workList = await getWorks();
+  const { ok, error, result } = await getWorks();
+
+  console.log(result);
   return {
-    // paths: [
-    //   {
-    //     params: {
-    //       workId: "1",
-    //     },
-    //   },
-    // ],
-    paths: workList.map((work) => ({
+    paths: result?.map((work) => ({
       params: {
         workId: work.id,
       },
