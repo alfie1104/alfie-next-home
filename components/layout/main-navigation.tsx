@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,7 +8,6 @@ import Image from "next/image";
 const linkList = [
   { title: "Home", path: "/" },
   { title: "Works", path: "/works" },
-  { title: "Biography", path: "/biography" },
 ];
 
 const logoPath = "/images/alfie_logo.svg";
@@ -59,23 +58,42 @@ const NavItem = ({
 
 const MainNavigation = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
+  const [isActivated, setIsActivated] = useState(true);
   const { pathname } = useRouter();
 
+  const changeActiveState = () => {
+    if (window.scrollY >= 66) {
+      setIsActivated(false);
+    } else {
+      setIsActivated(true);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", changeActiveState);
+  }, []);
+
   return (
-    <nav className="w-full flex flex-row md:justify-center justify-between items-center p-4 mb-5">
+    <nav
+      className={`w-full flex flex-row md:justify-center justify-between items-center p-2 mb-5 sticky top-0 z-20 transition-all ${
+        isActivated ? "bg-custom-black-light bg-opacity-50" : ""
+      }`}
+    >
       <div className="md:ml-14 ml-8 mr-auto justify-center items-center">
-        <Link href="/">
-          <div className="w-20 md:w-32 -rotate-6 hover:rotate-0 transition-transform cursor-pointer">
-            <Image
-              src={logoPath}
-              alt="logo"
-              width={128}
-              height={80}
-              layout="responsive"
-              className="rounded-2xl"
-            />
-          </div>
-        </Link>
+        {isActivated && (
+          <Link href="/">
+            <div className="w-20 md:w-32 -rotate-6 hover:rotate-0 transition-transform cursor-pointer">
+              <Image
+                src={logoPath}
+                alt="logo"
+                width={128}
+                height={80}
+                layout="responsive"
+                className="rounded-2xl"
+              />
+            </div>
+          </Link>
+        )}
       </div>
       <ul className="text-white md:flex hidden list-none flex-row justify-between items-center flex-initial">
         {linkList.map((item) => (

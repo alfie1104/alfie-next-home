@@ -6,7 +6,7 @@ import {
   IWorkImage,
   IWorkItem,
 } from "./data.type";
-import { supabase } from "./superbaseClient";
+import { supabase } from "./supabaseClient";
 
 export async function getWorks(): Promise<IResult<IWork[]>> {
   let { data, error, status } = await supabase
@@ -37,7 +37,7 @@ export async function getWorks(): Promise<IResult<IWork[]>> {
       const workImages: IWorkImage[] = work.work_image.map(
         (workImage: any) => ({
           id: workImage.id + "",
-          uri: workImage.uri,
+          uri: workImage.image_uri,
           description: workImage.description,
         })
       );
@@ -130,7 +130,7 @@ export async function getWorkById(id: string): Promise<IResult<IWork>> {
     }));
     const workImages: IWorkImage[] = data.work_image.map((workImage: any) => ({
       id: workImage.id + "",
-      uri: workImage.uri,
+      uri: workImage.image_uri,
       description: workImage.description,
     }));
 

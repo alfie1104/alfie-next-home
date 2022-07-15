@@ -8,6 +8,7 @@ import {
   ListItem,
   Paragraph,
   Title,
+  WorkImage,
 } from "../../components/work";
 import { getWorkById, getWorks } from "../../util/api";
 
@@ -30,8 +31,8 @@ function WorkPage(props: InferGetStaticPropsType<typeof getStaticProps>) {
     <Article title={`Work-${title}`} description="Work">
       <Container>
         <Title>{title}</Title>
-        <Paragraph>{description}</Paragraph>
-        <List>
+        <Paragraph className="w-[50%] text-center">{description}</Paragraph>
+        <List className="w-[50%]">
           {items?.map((item, index) => (
             <ListItem key={index}>
               <ItemName>{item.name}</ItemName>
@@ -39,6 +40,19 @@ function WorkPage(props: InferGetStaticPropsType<typeof getStaticProps>) {
             </ListItem>
           ))}
         </List>
+        {workImages && workImages.length > 0 && (
+          <div className="w-[50%] grid grid-cols-2 gap-5 mt-3 mb-10">
+            {workImages.map((data) => {
+              return (
+                <WorkImage
+                  alt={data.description ?? title}
+                  src={data.uri}
+                  key={data.id}
+                />
+              );
+            })}
+          </div>
+        )}
       </Container>
     </Article>
   );
