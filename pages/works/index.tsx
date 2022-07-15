@@ -10,17 +10,19 @@ function WorksPage(props: InferGetStaticPropsType<typeof getStaticProps>) {
       <Article title="Works" description="Works">
         <div className="flex flex-col items-center">
           <h1>My Works</h1>
-          {props.workList.map((work) => (
-            <div key={work.id}>
-              {work.workImages && work.workImages.length > 0 && (
-                <WorkImage
-                  src={work.workImages[0].uri}
-                  alt={work.workImages[0].description ?? work.title}
-                />
-              )}
-              <Link href={`/works/${work.id}`}>{work.title}</Link>
-            </div>
-          ))}
+          <div className="grid grid-cols-2 gap-10">
+            {props.workList.map((work) => (
+              <div key={work.id}>
+                {work.workImages && work.workImages.length > 0 && (
+                  <WorkImage
+                    src={work.workImages[0].uri}
+                    alt={work.workImages[0].description ?? work.title}
+                  />
+                )}
+                <Link href={`/works/${work.id}`}>{work.title}</Link>
+              </div>
+            ))}
+          </div>
         </div>
       </Article>
     </>

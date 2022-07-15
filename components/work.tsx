@@ -43,7 +43,7 @@ export const WorkImage = ({ src, alt }: { src: string; alt: string }) => (
 );
 
 export const Paragraph: React.FC<{ children: any }> = ({ children }) => (
-  <p className="text-justify indent-4 border-2 font-medium text-custom-green-light">
+  <p className="text-justify indent-4 font-medium text-custom-green-light my-2">
     {children}
   </p>
 );

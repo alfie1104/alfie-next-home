@@ -24,7 +24,7 @@ function WorkPage(props: InferGetStaticPropsType<typeof getStaticProps>) {
     );
   }
 
-  const { title, description, items } = work;
+  const { title, description, items, workImages } = work;
 
   return (
     <Article title={`Work-${title}`} description="Work">
@@ -68,7 +68,6 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 export async function getStaticPaths() {
   const { ok, error, result } = await getWorks();
 
-  console.log(result);
   return {
     paths: result?.map((work) => ({
       params: {
