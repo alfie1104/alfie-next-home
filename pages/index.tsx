@@ -25,11 +25,11 @@ const Home = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
           <Experiences expList={props.expList} />
           <button
             onClick={handleClickBtn}
-            className="w-36 h-16 rounded-md font-semibold text-xl leading-8 my-3 transition-all shadow-sm text-custom-black-light bg-custom-green-light  hover:bg-custom-green-dark hover:text-custom-white-light"
+            className="w-36 h-16 rounded-md font-semibold text-xl leading-8 mt-3 mb-8 transition-all shadow-sm text-custom-black-light bg-custom-green-light  hover:bg-custom-green-dark hover:text-custom-white-light"
           >
             My Works
           </button>
-          <div className="mb-10"></div>
+          <Footer />
         </Container>
       </Article>
     </>

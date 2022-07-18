@@ -1,5 +1,4 @@
 import { Fragment } from "react";
-import Footer from "../footer";
 import Navbar from "./main-navigation";
 
 interface IProps {
@@ -11,7 +10,6 @@ const Layout: React.FC<IProps> = (props) => {
     <Fragment>
       <Navbar />
       <main>{props.children}</main>
-      <Footer />
     </Fragment>
   );
 };
