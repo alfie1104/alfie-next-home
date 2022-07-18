@@ -4,6 +4,12 @@ import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
+import {
+  motion,
+  useAnimation,
+  useViewportScroll,
+  Variants,
+} from "framer-motion";
 
 const linkList = [
   { title: "Home", path: "/" },
@@ -27,6 +33,15 @@ const Item: React.FC<{
     {children}
   </li>
 );
+
+const navVariants: Variants = {
+  top: {
+    backgroundColor: "rgba(51,51,51,0.5)",
+  },
+  scroll: {
+    backgroundColor: "rgba(51,51,51,0)",
+  },
+};
 
 const NavItem = ({
   title,
@@ -59,43 +74,52 @@ const NavItem = ({
 const MainNavigation = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
   const [isActivated, setIsActivated] = useState(true);
+  const navAnimation = useAnimation();
   const { pathname } = useRouter();
-
-  const changeActiveState = () => {
-    if (window.scrollY >= 66) {
-      setIsActivated(false);
-    } else {
-      setIsActivated(true);
-    }
-  };
+  const { scrollY } = useViewportScroll();
 
   useEffect(() => {
-    window.addEventListener("scroll", changeActiveState);
+    scrollY.onChange(() => {
+      if (scrollY.get() >= 80) {
+        setIsActivated(false);
+        navAnimation.start("scroll");
+      } else {
+        setIsActivated(true);
+        navAnimation.start("top");
+      }
+    });
   }, []);
 
   return (
-    <nav
-      className={`w-full flex flex-row md:justify-center justify-between items-center p-2 mb-5 sticky top-0 z-20 transition-all ${
-        isActivated ? "bg-custom-black-light bg-opacity-50" : ""
-      }`}
+    <motion.nav
+      className={`w-full flex flex-row md:justify-center justify-between items-center p-2 mb-5 sticky top-0 z-20 transition-all`}
+      variants={navVariants}
+      initial={"top"}
+      animate={navAnimation}
     >
       <div className="md:ml-14 ml-8 mr-auto justify-center items-center">
-        {isActivated && (
-          <Link href="/">
-            <div className="w-20 md:w-32 -rotate-6 hover:rotate-0 transition-transform cursor-pointer">
-              <Image
-                src={logoPath}
-                alt="logo"
-                width={128}
-                height={80}
-                layout="responsive"
-                className="rounded-2xl"
-              />
-            </div>
-          </Link>
-        )}
+        <Link href="/">
+          <div
+            className={`${
+              isActivated ? "" : "hidden"
+            } w-20 md:w-32 -rotate-6 hover:rotate-0 cursor-pointer transition-all`}
+          >
+            <Image
+              src={logoPath}
+              alt="logo"
+              width={128}
+              height={80}
+              layout="responsive"
+              className="rounded-2xl"
+            />
+          </div>
+        </Link>
       </div>
-      <ul className="text-white md:flex hidden list-none flex-row justify-between items-center flex-initial">
+      <ul
+        className={`text-white md:flex hidden list-none flex-row justify-between items-center flex-initial ${
+          isActivated ? "" : "mt-7"
+        }`}
+      >
         {linkList.map((item) => (
           <NavItem
             {...item}
@@ -138,7 +162,7 @@ const MainNavigation = () => {
           </ul>
         )}
       </div>
-    </nav>
+    </motion.nav>
   );
 };
 
