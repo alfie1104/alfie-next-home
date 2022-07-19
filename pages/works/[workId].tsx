@@ -1,4 +1,5 @@
 import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
+import { useEffect, useState } from "react";
 import Article from "../../components/article";
 import Container from "../../components/container";
 import Slide from "../../components/slide";
@@ -15,6 +16,20 @@ import { getWorkById, getWorks } from "../../util/api";
 
 function WorkPage(props: InferGetStaticPropsType<typeof getStaticProps>) {
   const { work } = props;
+  const [windowWidth, setWindowWidth] = useState(10);
+
+  const handleResize = () => {
+    setWindowWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   if (work === undefined) {
     return (
@@ -52,8 +67,8 @@ function WorkPage(props: InferGetStaticPropsType<typeof getStaticProps>) {
                 />
               );
             })}
-            itemWidth={400}
-            totalViewWidth={700}
+            itemWidth={windowWidth * 0.4 >= 500 ? 500 : windowWidth * 0.4}
+            viewWidthRatio={1.5}
             autoMoving={false}
           />
         )}
