@@ -1,6 +1,7 @@
 import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
 import Article from "../../components/article";
 import Container from "../../components/container";
+import Slide from "../../components/slide";
 import {
   ItemContent,
   ItemName,
@@ -41,8 +42,8 @@ function WorkPage(props: InferGetStaticPropsType<typeof getStaticProps>) {
           ))}
         </List>
         {workImages && workImages.length > 0 && (
-          <div className="w-[50%] grid grid-cols-2 gap-5 mt-3 mb-10">
-            {workImages.map((data) => {
+          <Slide
+            items={workImages.map((data) => {
               return (
                 <WorkImage
                   alt={data.description ?? title}
@@ -51,7 +52,10 @@ function WorkPage(props: InferGetStaticPropsType<typeof getStaticProps>) {
                 />
               );
             })}
-          </div>
+            itemWidth={400}
+            totalViewWidth={700}
+            autoMoving={false}
+          />
         )}
       </Container>
     </Article>
